@@ -52,3 +52,4 @@ def filter8bit(pic):
   pic = blowUpPic(pic)
   pic = blowUpPic(pic)
   show (pic)
+
