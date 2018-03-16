@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CST205Labs", "CST205Labs\CST205Labs.pyproj", "{4639408F-3A17-46FB-8AC5-0F1D3A236C4B}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MidTermIGFilters", "MidTermIGFilters\MidTermIGFilters.pyproj", "{825EB850-2555-4AD4-B7B7-FC19A4C276A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4639408F-3A17-46FB-8AC5-0F1D3A236C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4639408F-3A17-46FB-8AC5-0F1D3A236C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{825EB850-2555-4AD4-B7B7-FC19A4C276A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{825EB850-2555-4AD4-B7B7-FC19A4C276A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE5D4FEF-8838-4BF1-A10E-E42F16C3F6E7}
+	EndGlobalSection
+EndGlobal
