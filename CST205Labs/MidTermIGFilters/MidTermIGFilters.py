@@ -45,8 +45,7 @@ def poseterize(color):
     elif 191 < color < 256:
       return 223
 
-def Run():
-  pic = makePicture('C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab7\\Original\\SeZaPortrait.png')
+def filter8bit(pic):
   pic = Artify(pic)
   pic = shrincPic(pic) 
   pic = shrincPic(pic)
