@@ -11,8 +11,6 @@
 #We are assuming that we know the region affected by read eye issue
 def getRegions(): 
   return [[358,526],[379,548],[592,526],[618,548]]
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 def getDimantions(pic):
   return getWidth(pic),getHeight(pic)
@@ -20,20 +18,20 @@ def getDimantions(pic):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def errorMSG(pic,txt):
-    picWidth,picHight = getDimantions(pic)
-    txtColor = makeColor(255, 0, 0)
-    txtStyle = makeStyle(sansSerif, bold, 30)
-    addTextWithStyle(pic, picWidth//2, picHight//2, txt, txtStyle, txtColor)
+    w,h = getDimantions(pic)
+    c = makeColor(255, 0, 0)
+    s = makeStyle(sansSerif, bold, 30)
+    addTextWithStyle(pic, w//2, h//2, txt, s, c)
     return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def txtMSG(pic,txt_1,txt_2):
-    picWidth,picHight = getDimantions(pic)
-    txtColor = makeColor(0, 255, 0)
-    txtStyle = makeStyle(sansSerif, bold, 30)
-    addTextWithStyle(pic, (picWidth//2)-150, picHight//2, txt_1, txtStyle, txtColor)
-    addTextWithStyle(pic, (picWidth//2)-100, (picHight//2)+30, txt_2,txtStyle, txtColor)
+    w,h = getDimantions(pic)
+    c = makeColor(0, 255, 0)
+    s = makeStyle(sansSerif, bold, 30)
+    addTextWithStyle(pic, (w//2)-150, h//2, txt_1, s, c)
+    addTextWithStyle(pic, (w//2)-100, (h//2)+30, txt_2, s, c)
     return pic  
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,18 +49,18 @@ def poseterize(color):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def getDistanceFromBase(pixel, baseColor):
-  pixelCol = getColor(pixel)
-  return distance(baseColor, pixelCol)     
+  col = getColor(pixel)
+  return distance(baseColor, col)     
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def makeNegative (pic): 
    pixels = getPixels(pic)
    for pixel in pixels:
-     pixelRed = getRed(pixel)
-     pixelGreen = getGreen(pixel)
-     pixelBlue = getBlue(pixel)
-     newColor = makeColor(255-pixelRed,255-pixelGreen,255-pixelBlue )
+     r = getRed(pixel)
+     g = getGreen(pixel)
+     b = getBlue(pixel)
+     newColor = makeColor(255-r,255-g,255-b )
      setColor(pixel,newColor)
    return pic 
 
@@ -81,9 +79,9 @@ def newPic(width,hight):
 def helfRed():
   pic = get_pic()
   pixels = getPixels(pic)
-  for pixel in pixels:
-    pixelRed = getRed(pixel)
-    setRed(pixel, pixelRed*0.5)
+  for p in pixels:
+    r = getRed(p)
+    setRed(p, r*0.5)
   repaint(pic)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,9 +90,9 @@ def helfRed():
 def noBlue(): 
    pic = get_pic()
    pixels = getPixels(pic)
-   for pixel in pixels:
-     setBlue(pixel, 0)
-   return pic
+   for p in pixels:
+     setBlue(p, 0)
+   repaint(pic)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,29 +100,31 @@ def noBlue():
 def noGreen(): 
    pic = get_pic()
    pixels = getPixels(pic)
-   for pixel in pixels:
-     setGreen(pixel, 0)
-   return pic
+   for p in pixels:
+     setGreen(p, 0)
+   repaint(pic)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 1: lessRed function adjusts red by percentage parameter DB
 
 def lessRed(pic,percent):
   pixels = getPixels(pic)
-  for pixel in pixels:
-    pixelRed = getRed(pixel)
-    setRed(pixel, pixelRed * percent/100)
+  for p in pixels:
+    r = getRed(p)
+    setRed(p, r * percent/100)
   return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 2: function takes a multiple parameter to increase red, DT
 
-def moreRed(pic, percent):
+def moreRed(percent):
+  filename = pickAFile()
+  pic = makePicture(filename)
   pixels = getPixels(pic)
-  for pixel in pixels:
-    pixelRed = getRed(pixel)
-    setRed(pixel, (pixelRed + pixelRed*(percent/100)))
-  return pic
+  for p in pixels:
+    r = getRed(p)
+    setRed(p, (r + r*(percent/100)))
+  repaint(pic)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 3: make an image look pink SZ
@@ -132,12 +132,12 @@ def moreRed(pic, percent):
 def roseColoredGlasses():
    pic = get_pic()
    pixels = getPixels(pic)
-   for pixel in pixels:
-     pixelRed = getRed(pixel)
-     pixelGreen = getGreen(pixel)
-     pixelBlue = getBlue(pixel)
-     setRGB(p,pixelRed*1.01,pixelGreen*0.51,pixelBlue*0.65)
-   return pic 
+   for p in pixels:
+     r = getRed(p)
+     g = getGreen(p)
+     b = getBlue(p)
+     setRGB(p,r*1.01,g*0.51,b*0.65)
+   repaint(pic) 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 # Problem 4: write a function makeLighter that lightens the photo SZ
@@ -145,10 +145,10 @@ def roseColoredGlasses():
 def lightenUp():
    pic = get_pic()
    pixels = getPixels(pic)
-   for pixel in pixels:
-    pixelColor = getColor(p)
-    setColor(pixel,makeLighter(c))
-   return pic 
+   for p in pixels:
+    c = getColor(p)
+    setColor(p,makeLighter(c))
+   repaint(pic) 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 5 Logic/Psuedo LS
@@ -161,27 +161,28 @@ def lightenUp():
   #repaint image
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 6A: write a function BnW that turns a picture black and white LS
-def BnW(pic):
-  for pixel in getPixels(pic):
-    pixelRed = getRed(pixel) 
-    pixelGreen = getGreen(pixel)
-    pixelBlue = getBlue(pixel)
-    ave = (pixelRed+ pixelGreen+ pixelBlue) / 3
+def BnW():
+  pic = get_pic()
+  for p in getPixels(pic):
+    r = getRed(p) 
+    g = getGreen(p)
+    b = getBlue(p)
+    ave = (r + g + b) / 3
     set = makeColor(ave, ave, ave)
-    setColor(pixel, set)
-  return pic
+    setColor(p, set)
+  repaint(pic)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #LAB 4  
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def betterBnW(pic):
   for pixel in getPixels(pic):
-    pixelRed = getRed(pixel)
-    pixelGreen = getGreen(pixel)
-    pixelBlue = getGreen(pixel)
-    better = pixelRed*0.299 + pixelGreen*0.587 + pixelBlue*0.114
-    newColor = makeColor(better, better, better)
-    setColor(pixel, newColor)
+    r = getRed(pixel)
+    g = getGreen(pixel)
+    b = getGreen(pixel)
+    better = r*0.299 + g*0.587 + b*0.114
+    set = makeColor(better, better, better)
+    setColor(pixel, set)
   return pic
   
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -191,21 +192,12 @@ def roseColoredGlasses( pic, baseColor):
    for pixel in pixels:
      dist = getDistanceFromBase(pixel, baseColor)
      if dist>60 :
-         #get Existing Color
-         pixelRed = getRed(pixel)
-         pixelGreen = getGreen(pixel)
-         pixelBlue = getBlue(pixel)
-         #Set New color
-         newRed = pixelRed*1.01
-         #Check for overflow
-         if newRed>255 :
-             newRed = 255
-         newGreen  = pixelGreen*0.51
-         newBlue = pixelRed*0.65
-         #Make new Color
-         newColor = makeColor(newRed,newGreen,newBlue)
+         r = getRed(pixel)
+         g = getGreen(pixel)
+         b = getBlue(pixel)
+         newColor = makeColor(r*1.01,g*0.51,b*0.65)
          setColor(pixel,newColor)
-   return pic 
+   return (pic) 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -220,8 +212,8 @@ def mirrorVertical():
        colot2Copy = getColor(pixelL)
        setColor(pixelR,colot2Copy)
       
-   return pic
-
+   repaint(pic)
+   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willV.jpg')
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -237,7 +229,8 @@ def mirrorHorisontalTB():
        colot2Copy = getColor(pixelL)
        setColor(pixelR,colot2Copy)
       
-   return pic
+   repaint(pic)
+   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willHTB.jpg') 
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -253,8 +246,8 @@ def mirrorHorisontalBT():
        colot2Copy = getColor(pixelL)
        setColor(pixelR,colot2Copy)
       
-   return pic
-
+   repaint(pic)
+   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willHBT.jpg')
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -275,8 +268,8 @@ def mirrorQuad():
        setColor(pixelBL,colot2Copy)
        setColor(pixelBR,colot2Copy)
       
-   return pic
-
+   repaint(pic)
+   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willQuad.jpg')
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -290,15 +283,15 @@ def simpleCopy(pic):
       newPixel  = getPixelAt(newPic,x,y)
       color2Copy= getColor(pixel)
       setColor(newPixel,color2Copy)
-  return pic 
+  return duplicatePicture(pic) 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def rotatePic(pic):
   widthPic, heightPic = getDimantions(pic)
   newPic = makeEmptyPicture(heightPic,widthPic)
-  for x in range (widthPic,0 ):
-    for y in range (heightPic,0 ):
+  for x in range (0, widthPic):
+    for y in range (0, heightPic):
       pixel = getPixelAt(pic,x,y)
       newPixel  = getPixelAt(newPic,y,x)
       color2Copy= getColor(pixel)
