@@ -413,7 +413,7 @@ def makeCollage():
     filePath =r"LAB5\\rotatePic.jpg"
     fileIn =dir+r"Original\\"+filePath
     pic = makePicture(fileIn)
-    newPic = pyCopy (pic,collage,-961,2003)
+    newPic = pyCopy (pic,collage,-461,2203)
     #OutPutFile
     filePath =r"LAB5\\collage.jpg"            
     fileOut = dir+r"Result\\"+filePath
@@ -425,22 +425,18 @@ def makeCollage():
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def redEye(pic):
-   baseColor =  makeColor(218, 69, 96)
+   baseColor =  makeColor(255, 0, 0)
    regions = getRegions() 
+   picW,picH =  getDimantions(pic)
    pixelsArray = []
    #It is posible to detect the read eye region by looking for the clusters or red spread certain distance appart PD-distance.
    # Than gradualy expend regione and lower color senaativity to fix all affected pixels. SZ
-   for y in range (regions[0][1],regions[1][1]):
-     for x in range (regions[0][0],regions[1][0]):
+   for y in range (picH):
+     for x in range (picW):
        p=getPixelAt(pic,x,y)
        cred = getDistanceFromBase(p,baseColor)
-       if cred <80:
+       if cred <100:
          pixelsArray.append(p)
-     for x in range (regions[2][0],regions[3][0]):
-         p=getPixelAt(pic,x,y)
-         cred = getDistanceFromBase(p,baseColor)
-         if cred <80:
-           pixelsArray.append(p)
    #repaint(pic)
    for pixel in pixelsArray:
      newColor = makeColor(0, getGreen( pixel ), getBlue( pixel )) 
@@ -449,7 +445,7 @@ def redEye(pic):
   
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def Sepia(pic):
+def sepia(pic):
   pic = betterBnW(pic)
   pixels = getPixels(pic) 
   for pixel in pixels:
@@ -475,7 +471,7 @@ def Sepia(pic):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #Problem #2 Art-i-fy
-def Artify(pic):
+def artify(pic):
   for pixel in getPixels(pic):
     redP = getRed(pixel)
     blueP = getBlue(pixel)
@@ -493,7 +489,7 @@ def Artify(pic):
 #2 GreenScreen image
 #Find the green pixels in Green Screen Image 
 #Replace those pixels with pixels from Background Image
-def chromakey (source, backGround, coordX, coordY): 
+def chromaKey (source, backGround, coordX, coordY): 
   sourceW,sourceH = getDimantions(source)
   bgW,bgH = getDimantions(backGround)
   if (sourceW+coordX)>=bgW or (sourceH+coordY)>bgH :
@@ -539,9 +535,9 @@ def chromakey (source, backGround, coordX, coordY):
 def makeCard():
   pic = makePicture('\\Original\\Lab7\\johnny_walker_logo_bwv.jpg')
   bg = makePicture('\\Original\\Lab7\\JWG.jpg')
-  bg = chromakey (pic,bg,298,19)
+  bg = chromaKey (pic,bg,298,19)
   pic = makePicture('\\Original\\Lab7\\SPD.jpg')
-  Card = chromakey (pic,bg,500,320)
+  Card = chromaKey (pic,bg,500,320)
   Card=txtMSG(Card,"Make sure you keep walking","this St. Patrick`s Day")
   writePictureTo(Card,'\\Result\\Lab7\\spdCard.jpg')
   show(Card)
@@ -551,13 +547,16 @@ def makeCard():
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def Run():
   dir =r"D:\\Users\\live\Source\\Repos\\CST205-Multimedia-Design-and-Programming\\CST205Labs\\CST205Labs\\"
-  filePath =r"LAB5\\pyCopy.jpg"
+  filePath =r"LAB6\\chromaKeySource.jpg"
   fileIn =dir+r"Original\\"+filePath
-  fileOut = dir+r"Result\\"+filePath
   pic = makePicture(fileIn)
-  emptyPic = makeNewPic(960,960)
-  newPic = pyCopy (pic,emptyPic,105,144)
+  filePath =r"LAB6\\chromaKeyBG.jpg"
+  fileIn =dir+r"Original\\"+filePath
+  bg = makePicture(fileIn)
+  newPic = chromaKey (pic,bg,0,0)
   pic = makePicture(fileIn)
   newPic = beforeAndAfter(pic,newPic)
+  filePath =r"LAB6\\chromaKey.jpg"
+  fileOut = dir+r"Result\\"+filePath
   writePictureTo(newPic,fileOut)
     
