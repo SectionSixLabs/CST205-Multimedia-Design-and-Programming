@@ -11,6 +11,8 @@
 #We are assuming that we know the region affected by read eye issue
 def getRegions(): 
   return [[358,526],[379,548],[592,526],[618,548]]
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 def getDimantions(pic):
   return getWidth(pic),getHeight(pic)
@@ -18,20 +20,20 @@ def getDimantions(pic):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def errorMSG(pic,txt):
-    w,h = getDimantions(pic)
-    c = makeColor(255, 0, 0)
-    s = makeStyle(sansSerif, bold, 30)
-    addTextWithStyle(pic, w//2, h//2, txt, s, c)
+    picWidth,picHight = getDimantions(pic)
+    txtColor = makeColor(255, 0, 0)
+    txtStyle = makeStyle(sansSerif, bold, 30)
+    addTextWithStyle(pic, 20, 20, txt, txtStyle, txtColor)
     return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def txtMSG(pic,txt_1,txt_2):
-    w,h = getDimantions(pic)
-    c = makeColor(0, 255, 0)
-    s = makeStyle(sansSerif, bold, 30)
-    addTextWithStyle(pic, (w//2)-150, h//2, txt_1, s, c)
-    addTextWithStyle(pic, (w//2)-100, (h//2)+30, txt_2, s, c)
+    picWidth,picHight = getDimantions(pic)
+    txtColor = makeColor(0, 255, 0)
+    txtStyle = makeStyle(sansSerif, bold, 30)
+    addTextWithStyle(pic, (picWidth//2)-150, picHight//2, txt_1, txtStyle, txtColor)
+    addTextWithStyle(pic, (picWidth//2)-100, (picHight//2)+30, txt_2,txtStyle, txtColor)
     return pic  
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,106 +51,135 @@ def poseterize(color):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def getDistanceFromBase(pixel, baseColor):
-  col = getColor(pixel)
-  return distance(baseColor, col)     
+  pixelCol = getColor(pixel)
+  return distance(baseColor, pixelCol)     
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def makeNegative (pic): 
    pixels = getPixels(pic)
    for pixel in pixels:
-     r = getRed(pixel)
-     g = getGreen(pixel)
-     b = getBlue(pixel)
-     newColor = makeColor(255-r,255-g,255-b )
+     pixelRed = getRed(pixel)
+     pixelGreen = getGreen(pixel)
+     pixelBlue = getBlue(pixel)
+     newColor = makeColor(255-pixelRed,255-pixelGreen,255-pixelBlue )
      setColor(pixel,newColor)
    return pic 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def newPic(width,hight):
+def beforeAndAfter(picOne,picTwo):
+  pic1W,pic1H = getDimantions(picOne)
+  pic2W,pic2H = getDimantions(picTwo)
+  newPicW = pic1W+pic2W+1
+  if pic1H>pic2H: 
+    newPicH = pic1H
+  else: 
+    newPicH = pic2H
+  print newPicW,newPicH
+  myPic = makeNewPic (newPicW, newPicH)
+  myPic= pyCopy(picOne,myPic,0,0)
+  myPic= pyCopy(picTwo,myPic,pic1W+1,0)
+  txtColor = makeColor(255, 255, 255)
+  txtStyle = makeStyle(sansSerif, bold, 30)
+  addTextWithStyle(myPic, (pic1W//2)-150, pic1H-31, "BEFORE", txtStyle, txtColor)
+  addTextWithStyle(myPic, pic1W+(pic2W//2)-150, pic1H-31, "AFTER",txtStyle, txtColor)
+  return myPic
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+def makeNewPic(width,hight):
   mypic = makeEmptyPicture(width, hight)
   for x in range (0, getWidth(mypic)):
     for y in range (0, getHeight(mypic)):
-      setColor(getPixel(mypic, x, y),green )
+      setColor(getPixel(mypic, x, y),black )
   return mypic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #LAB 3
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def helfRed():
-  pic = get_pic()
+def halfRed(pic):
   pixels = getPixels(pic)
-  for p in pixels:
-    r = getRed(p)
-    setRed(p, r*0.5)
-  repaint(pic)
+  for pixel in pixels:
+    pixelRed = getRed(pixel)
+    setRed(pixel, pixelRed*0.5)
+  return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #removes all of the blue from an image
-def noBlue(): 
-   pic = get_pic()
+def noBlue(pic): 
    pixels = getPixels(pic)
-   for p in pixels:
-     setBlue(p, 0)
-   repaint(pic)
+   for pixel in pixels:
+     setBlue(pixel, 0)
+   return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #removes all of the green from an image
-def noGreen(): 
-   pic = get_pic()
+def noGreen(pic): 
    pixels = getPixels(pic)
-   for p in pixels:
-     setGreen(p, 0)
-   repaint(pic)
+   for pixel in pixels:
+     setGreen(pixel, 0)
+   return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 1: lessRed function adjusts red by percentage parameter DB
 
 def lessRed(pic,percent):
   pixels = getPixels(pic)
-  for p in pixels:
-    r = getRed(p)
-    setRed(p, r * percent/100)
+  for pixel in pixels:
+    pixelRed = getRed(pixel)
+    setRed(pixel, pixelRed-pixelRed * percent/100)
   return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 2: function takes a multiple parameter to increase red, DT
 
-def moreRed(percent):
-  filename = pickAFile()
-  pic = makePicture(filename)
+def moreRed(pic, percent):
   pixels = getPixels(pic)
-  for p in pixels:
-    r = getRed(p)
-    setRed(p, (r + r*(percent/100)))
-  repaint(pic)
+  for pixel in pixels:
+    pixelRed = getRed(pixel)
+    newRed = pixelRed + (pixelRed*percent)/100
+    if newRed>255: 
+       newRed = 255
+    setRed(pixel,newRed)
+  return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 3: make an image look pink SZ
-
-def roseColoredGlasses():
-   pic = get_pic()
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+def roseColoredGlasses( pic):
+   baseColor = makeColor(255, 0, 128)
    pixels = getPixels(pic)
-   for p in pixels:
-     r = getRed(p)
-     g = getGreen(p)
-     b = getBlue(p)
-     setRGB(p,r*1.01,g*0.51,b*0.65)
-   repaint(pic) 
+   for pixel in pixels:
+     dist = getDistanceFromBase(pixel, baseColor)
+     if dist>60 :
+         #get Existing Color
+         pixelRed = getRed(pixel)
+         pixelGreen = getGreen(pixel)
+         pixelBlue = getBlue(pixel)
+         #Set New color
+         newRed = pixelRed*1.01
+         #Check for overflow
+         if newRed>255 :
+             newRed = 255
+         newGreen  = pixelGreen*0.51
+         newBlue = pixelRed*0.65
+         #Make new Color
+         newColor = makeColor(newRed,newGreen,newBlue)
+         setColor(pixel,newColor)
+   return pic 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 # Problem 4: write a function makeLighter that lightens the photo SZ
 
-def lightenUp():
-   pic = get_pic()
+def lightenUp(pic):
    pixels = getPixels(pic)
-   for p in pixels:
-    c = getColor(p)
-    setColor(p,makeLighter(c))
-   repaint(pic) 
+   for pixel in pixels:
+    pixelColor = getColor(pixel)
+    newColor= makeLighter(pixelColor)
+    setColor(pixel,newColor)
+   return pic 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 5 Logic/Psuedo LS
@@ -161,48 +192,32 @@ def lightenUp():
   #repaint image
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Problem 6A: write a function BnW that turns a picture black and white LS
-def BnW():
-  pic = get_pic()
-  for p in getPixels(pic):
-    r = getRed(p) 
-    g = getGreen(p)
-    b = getBlue(p)
-    ave = (r + g + b) / 3
+def BnW(pic):
+  for pixel in getPixels(pic):
+    pixelRed = getRed(pixel) 
+    pixelGreen = getGreen(pixel)
+    pixelBlue = getBlue(pixel)
+    ave = (pixelRed+ pixelGreen+ pixelBlue) / 3
     set = makeColor(ave, ave, ave)
-    setColor(p, set)
-  repaint(pic)
+    setColor(pixel, set)
+  return pic
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #LAB 4  
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def betterBnW(pic):
   for pixel in getPixels(pic):
-    r = getRed(pixel)
-    g = getGreen(pixel)
-    b = getGreen(pixel)
-    better = r*0.299 + g*0.587 + b*0.114
-    set = makeColor(better, better, better)
-    setColor(pixel, set)
+    pixelRed = getRed(pixel)
+    pixelGreen = getGreen(pixel)
+    pixelBlue = getGreen(pixel)
+    better = pixelRed*0.299 + pixelGreen*0.587 + pixelBlue*0.114
+    newColor = makeColor(better, better, better)
+    setColor(pixel, newColor)
   return pic
   
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def roseColoredGlasses( pic, baseColor):
-   pixels = getPixels(pic)
-   for pixel in pixels:
-     dist = getDistanceFromBase(pixel, baseColor)
-     if dist>60 :
-         r = getRed(pixel)
-         g = getGreen(pixel)
-         b = getBlue(pixel)
-         newColor = makeColor(r*1.01,g*0.51,b*0.65)
-         setColor(pixel,newColor)
-   return (pic) 
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def mirrorVertical():
-   pic = get_pic()
+def mirrorVertical(pic):
    widthPic, heightPic = getDimantions(pic)
    for x in range( 0, widthPic/2):
      for y in range(0,heightPic):
@@ -212,14 +227,13 @@ def mirrorVertical():
        colot2Copy = getColor(pixelL)
        setColor(pixelR,colot2Copy)
       
-   repaint(pic)
-   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willV.jpg')
+   return pic
+
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def mirrorHorisontalTB():
-   pic = get_pic()
+def mirrorHorisontalTB(pic):
    widthPic, heightPic = getDimantions(pic)
    for x in range( 0, widthPic):
      for y in range(0,heightPic/2):
@@ -229,14 +243,12 @@ def mirrorHorisontalTB():
        colot2Copy = getColor(pixelL)
        setColor(pixelR,colot2Copy)
       
-   repaint(pic)
-   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willHTB.jpg') 
+   return pic
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def mirrorHorisontalBT():
-   pic = get_pic()
+def mirrorHorisontalBT(pic):
    widthPic, heightPic = getDimantions(pic)
    for x in range( 0, widthPic):
      for y in range(heightPic/2,heightPic):
@@ -246,14 +258,13 @@ def mirrorHorisontalBT():
        colot2Copy = getColor(pixelL)
        setColor(pixelR,colot2Copy)
       
-   repaint(pic)
-   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willHBT.jpg')
+   return pic
+
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def mirrorQuad():
-   pic = get_pic()
+def mirrorQuad(pic):
    widthPic, heightPic = getDimantions(pic)
    for x in range( 0, widthPic/2):
      for y in range(0,heightPic/2):
@@ -268,8 +279,8 @@ def mirrorQuad():
        setColor(pixelBL,colot2Copy)
        setColor(pixelBR,colot2Copy)
       
-   repaint(pic)
-   writePictureTo(pic,'C:\\Users\\live\\OneDrive\\CSUMB\\CST205\\Week2\\Lab4\\willQuad.jpg')
+   return pic
+
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -280,20 +291,23 @@ def simpleCopy(pic):
   for x in range (0, widthPic):
     for y in range (0, heightPic):
       pixel = getPixelAt(pic,x,y)
+      pixelRed = getRed(pixel) 
+      pixelRed = getGreen(pixel)
+      pixelBlue = getBlue(pixel)
       newPixel  = getPixelAt(newPic,x,y)
-      color2Copy= getColor(pixel)
-      setColor(newPixel,color2Copy)
-  return duplicatePicture(pic) 
+      newPicColor = makeColor( pixelRed,pixelRed,pixelBlue)
+      setColor(newPixel,newPicColor)
+  return newPic 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def rotatePic(pic):
   widthPic, heightPic = getDimantions(pic)
   newPic = makeEmptyPicture(heightPic,widthPic)
-  for x in range (0, widthPic):
-    for y in range (0, heightPic):
+  for x in range (0,widthPic ):
+    for y in range (0,heightPic ):
       pixel = getPixelAt(pic,x,y)
-      newPixel  = getPixelAt(newPic,y,x)
+      newPixel  = getPixelAt(newPic,y,widthPic-x-1)
       color2Copy= getColor(pixel)
       setColor(newPixel,color2Copy)
   return newPic 
@@ -313,71 +327,97 @@ def shrincPic(pic):
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def pyCopy(source, target, targetX, targetY,baseColor): 
-#  print "Running"
+def pyCopy (source, backGround, coordX, coordY): 
   sourceW,sourceH = getDimantions(source)
-  targetW,targetH = getDimantions(target)
-  for x in range (0, targetW):
-   for y in range (0, targetH):
-     newPixel  = getPixelAt(target,x,y)
-     targetDist = getDistanceFromBase(newPixel, green)
-     if x-targetX<sourceW and y-targetY<sourceH and x>targetX and y>targetY:
-        pixel = getPixelAt(source,x-targetX,y-targetY)
-        dist = getDistanceFromBase(pixel, baseColor)
-        if dist>80 and targetDist<60:
-          color2Copy= getColor(pixel)
-          setColor(newPixel,color2Copy)
-  return target
+  bgW,bgH = getDimantions(backGround)
+  if (sourceW+coordX)>bgW or (sourceH+coordY)>bgH :
+    return errorMSG(source,"YELL NO "+str(sourceW)+"x"+str(sourceH)+" "+str(coordX)+":"+str(coordY)+" "+str(bgW)+"x"+str(bgH))
+  for x in range (0, bgW):
+   for y in range (0, bgH):
+    if x>=coordX and x<sourceW+coordX and y>=coordY and y<sourceH+coordY:
+     picPixel=getPixelAt(backGround,x,y)
+     pixelX=x-coordX
+     pixelY=y-coordY
+     pixel = getPixelAt(source,pixelX,pixelY)
+     pixelRed = getRed(pixel) 
+     pixelGreen = getGreen(pixel)
+     pixelBlue = getBlue(pixel)
+     newPicColor = makeColor( pixelRed,pixelGreen,pixelBlue)
+     setColor(picPixel,newPicColor)
+  return backGround
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def makeCollage(): 
-    collage = newPic(2550,3300)
-    #Group Photo makeColor(19,177,110)
-    pic =  makePicture('\\Original\\GroupPhoto.jpg')
-    pic = makeNegative(pic)
-    collage = pyCopy(pic,collage,764,173,makeColor(0,255,0))
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    #Group Photo makeColor(19,177,110)
-    pic =  makePicture('\\Original\\CACW.jpg')
-    pic = makeNegative(pic)
-    collage = pyCopy(pic,collage,0,1066,makeColor(0,255,0))
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    #Group Photo
-    pic =  makePicture('\\Original\\willV.jpg')
-    collage = pyCopy(pic,collage,975,2450, makeColor(19,177,110))
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    #willQuad
-    pic = makePicture('\\Original\\willQuad.jpg')
-    pic=rotatePic(pic)
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    baseColor =makeColor(118,177,110)
-    pic = roseColoredGlasses(pic, baseColor)
-    pic = shrincPic(pic)
-    collage = pyCopy(pic,collage,1083,2450,baseColor)
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    #will Speach
-    pic =  makePicture('\\Original\\shia_labeouf_motivational_speech.jpg')
-    pic = betterBnW(pic,makeColor(149,250,170))
-    collage = pyCopy(pic,collage,1575,2911,makeColor(149,250,170))
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    #MF
-    pic =  makePicture('\\Original\\maxresdefault.jpg')
-    baseColor = makeColor(1,255,0)
-    pic = betterBnW(pic, baseColor)
-    collage = pyCopy(pic,collage,471,112,baseColor)
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    #Tie Bomber
-    pic =  makePicture('\\Original\\swbg.jpg')
-    baseColor = makeColor(1,255,0)
-    pic = betterBnW(pic, baseColor)
-    collage = pyCopy(pic,collage,0,0,baseColor)
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    #BG
-    pic =  makePicture('\\Original\\forest.jpg')
-    collage = pyCopy(pic,collage,0,1606,makeColor(0,255,0))
-    writePictureTo(collage,'\\Result\\Collage.jpg')
-    repaint(collage)
+    collage = makeNewPic(2550,3300)
+    dir =r"D:\\Users\\live\Source\\Repos\\CST205-Multimedia-Design-and-Programming\\CST205Labs\\CST205Labs\\"
+    #First
+    filePath =r"LAB5\\lightenUp.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    offset = 0
+    picW,picH = getDimantions(pic)
+    newPic = pyCopy (pic,collage,629,offset)
+    offset= offset+picH
+    #Second
+    filePath =r"LAB5\\lessRed.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,629,offset)
+    picW,picH = getDimantions(pic)
+    offset= offset+picH
+    #Third
+    filePath =r"LAB5\\mirrorHorisontalTB.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,629,offset)
+    picW,picH = getDimantions(pic)
+    offset= offset+picH
+    #Forth
+    filePath =r"LAB5\\betterBnW.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,629,offset)
+    picW,picH = getDimantions(pic)
+    offset= offset+picH
+    #Fifth
+    filePath =r"LAB5\\halfRed.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,629,offset)
+    picW,picH = getDimantions(pic)
+    offset= offset+picH
+    #Sixth
+    filePath =r"LAB5\\mirrorVertical.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,629,offset)
+    picW,picH = getDimantions(pic)
+    offset= offset+picH
+    #Seven
+    filePath =r"LAB5\\moreRed.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,0,0)
+    #Eight
+    filePath =r"LAB5\\noBlue.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,-961,1296)
+    #Nine
+    filePath =r"LAB5\\roseColoredGlasses.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,-961,600)
+    #Twn
+    filePath =r"LAB5\\rotatePic.jpg"
+    fileIn =dir+r"Original\\"+filePath
+    pic = makePicture(fileIn)
+    newPic = pyCopy (pic,collage,-961,2003)
+    #OutPutFile
+    filePath =r"LAB5\\collage.jpg"            
+    fileOut = dir+r"Result\\"+filePath
+    writePictureTo(newPic,fileOut)
     
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -510,9 +550,14 @@ def makeCard():
 #RUN FUNCTION FOR TESTING 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def Run():
-  pic = makePicture('\\Original\\maxresdefault.jpg')
-  bg = makePicture('\\Original\\swbg.jpg')
-  newPic = chromakey (pic,bg,1000,1000)
-  writePictureTo(newPic,'\\Result\\GSError.jpg')
-  show(newPic)
+  dir =r"D:\\Users\\live\Source\\Repos\\CST205-Multimedia-Design-and-Programming\\CST205Labs\\CST205Labs\\"
+  filePath =r"LAB5\\pyCopy.jpg"
+  fileIn =dir+r"Original\\"+filePath
+  fileOut = dir+r"Result\\"+filePath
+  pic = makePicture(fileIn)
+  emptyPic = makeNewPic(960,960)
+  newPic = pyCopy (pic,emptyPic,105,144)
+  pic = makePicture(fileIn)
+  newPic = beforeAndAfter(pic,newPic)
+  writePictureTo(newPic,fileOut)
     
