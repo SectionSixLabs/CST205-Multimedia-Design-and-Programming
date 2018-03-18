@@ -532,6 +532,12 @@ def chromaKey (source, backGround, coordX, coordY):
 #LAB 7  
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+def makeSnowmen(pic):
+  addOvalFilled(pic,300,300,60,60,white)
+  addOvalFilled(pic,310,265,40,40,white)
+  addOvalFilled(pic,312,240,30,30,white)
+  return pic
+  
 def makeCard():
   pic = makePicture('\\Original\\Lab7\\johnny_walker_logo_bwv.jpg')
   bg = makePicture('\\Original\\Lab7\\JWG.jpg')
@@ -547,16 +553,13 @@ def makeCard():
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def Run():
   dir =r"D:\\Users\\live\Source\\Repos\\CST205-Multimedia-Design-and-Programming\\CST205Labs\\CST205Labs\\"
-  filePath =r"LAB6\\chromaKeySource.jpg"
+  filePath =r"LAB7\\desert.jpg"
   fileIn =dir+r"Original\\"+filePath
   pic = makePicture(fileIn)
-  filePath =r"LAB6\\chromaKeyBG.jpg"
-  fileIn =dir+r"Original\\"+filePath
-  bg = makePicture(fileIn)
-  newPic = chromaKey (pic,bg,0,0)
+  newPic = makeSnowmen (pic)
   pic = makePicture(fileIn)
   newPic = beforeAndAfter(pic,newPic)
-  filePath =r"LAB6\\chromaKey.jpg"
+  filePath =r"LAB7\\desertSnowMan.jpg"
   fileOut = dir+r"Result\\"+filePath
   writePictureTo(newPic,fileOut)
     
