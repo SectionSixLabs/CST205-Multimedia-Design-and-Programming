@@ -537,7 +537,9 @@ def makeSnowmen(pic):
   addOvalFilled(pic,310,265,40,40,white)
   addOvalFilled(pic,312,240,30,30,white)
   return pic
-  
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 def makeCard():
   pic = makePicture('\\Original\\Lab7\\johnny_walker_logo_bwv.jpg')
   bg = makePicture('\\Original\\Lab7\\JWG.jpg')
@@ -547,19 +549,34 @@ def makeCard():
   Card=txtMSG(Card,"Make sure you keep walking","this St. Patrick`s Day")
   writePictureTo(Card,'\\Result\\Lab7\\spdCard.jpg')
   show(Card)
-
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+def lineDrawing(pic):
+  pic = betterBnW(pic)
+  picW,picH = getDimantions(pic)
+  for x in range (0,picW-1):
+   for y in range (0,picH-1):
+     pixel = getPixelAt(pic,x,y)
+     pixelBelow = getPixelAt(pic,x,y+1)
+     pixelRight = getPixelAt(pic,x+1,y)
+     difBelow = float(abs( getRed (pixelBelow)-getRed (pixel)))/255
+     difRight = float(abs( getRed (pixelRight)-getRed (pixel)))/255
+     if difBelow>0.1 or difRight>0.1:
+       setColor(pixel,black)
+     else:        
+       setColor(pixel,white)
+  return pic
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #RUN FUNCTION FOR TESTING 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def Run():
   dir =r"D:\\Users\\live\Source\\Repos\\CST205-Multimedia-Design-and-Programming\\CST205Labs\\CST205Labs\\"
-  filePath =r"LAB7\\desert.jpg"
+  filePath =r"LAB7\\lineDrawing.jpg"
   fileIn =dir+r"Original\\"+filePath
   pic = makePicture(fileIn)
-  newPic = makeSnowmen (pic)
+  newPic = lineDrawing (pic)
   pic = makePicture(fileIn)
   newPic = beforeAndAfter(pic,newPic)
-  filePath =r"LAB7\\desertSnowMan.jpg"
   fileOut = dir+r"Result\\"+filePath
   writePictureTo(newPic,fileOut)
     
