@@ -67,6 +67,14 @@ def makeNegative (pic):
    return pic 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+def makeNewPic(width,hight):
+  mypic = makeEmptyPicture(width, hight)
+  for x in range (0, getWidth(mypic)):
+    for y in range (0, getHeight(mypic)):
+      setColor(getPixel(mypic, x, y),black )
+  return mypic
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def beforeAndAfter(picOne,picTwo):
   pic1W,pic1H = getDimantions(picOne)
   pic2W,pic2H = getDimantions(picTwo)
@@ -75,7 +83,6 @@ def beforeAndAfter(picOne,picTwo):
     newPicH = pic1H
   else: 
     newPicH = pic2H
-  print newPicW,newPicH
   myPic = makeNewPic (newPicW, newPicH)
   myPic= pyCopy(picOne,myPic,0,0)
   myPic= pyCopy(picTwo,myPic,pic1W+1,0)
@@ -84,14 +91,7 @@ def beforeAndAfter(picOne,picTwo):
   addTextWithStyle(myPic, (pic1W//2)-150, pic1H-31, "BEFORE", txtStyle, txtColor)
   addTextWithStyle(myPic, pic1W+(pic2W//2)-150, pic1H-31, "AFTER",txtStyle, txtColor)
   return myPic
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def makeNewPic(width,hight):
-  mypic = makeEmptyPicture(width, hight)
-  for x in range (0, getWidth(mypic)):
-    for y in range (0, getHeight(mypic)):
-      setColor(getPixel(mypic, x, y),black )
-  return mypic
+
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #LAB 3
