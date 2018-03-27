@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4639408f-3a17-46fb-8ac5-0f1d3a236c4b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>CST205Labs.py</StartupFile>
+    <StartupFile>CST205HangMan.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,6 +21,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CST205AudioLabs.py" />
+    <Compile Include="CST205HangMan.py" />
     <Compile Include="CST205Labs.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

@@ -7,6 +7,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CST205Labs", "CST205Labs\CS
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MidTermIGFilters", "MidTermIGFilters\MidTermIGFilters.pyproj", "{825EB850-2555-4AD4-B7B7-FC19A4C276A2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A30730C-2D91-4555-A5CF-E0AC84D02894}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
