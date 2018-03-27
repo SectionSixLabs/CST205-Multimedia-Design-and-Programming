@@ -115,14 +115,12 @@ def Hangman():
   maskStr = maskWord(word,"",'')
   isWin = gameWin(maskStr) 
   while len(guesses)<6 and not isWin:
-    #cls()
+    cls()
     drawHangMan(len(guesses))
     printNow ("\nYou have used "+str(len(guesses))+" of six guesses")
     printNow ("\nWord so far: "+ ''.join(maskStr))
     drawHangMan(guesses)
-    inputLetter = requestString("Guess a letter:")
-    if len(inputLetter)>0:
-      inputLetter.lower()
+    inputLetter = requestString("Guess a letter:").lower()
     if not inputLetter.isalpha() or len(inputLetter)>1:
       printNow ("\nPleas input only a character")
     elif ''.join(maskStr).find(inputLetter)>0:
@@ -138,5 +136,6 @@ def Hangman():
   if isWin:
     printNow("\nCongratulations, you win!")
   else:
+    cls()
     printNow ("\nYou have used "+str(len(guesses))+" of six guesses")
     drawHangMan(len(guesses))
