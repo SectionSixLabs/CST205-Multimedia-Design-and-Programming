@@ -3,7 +3,7 @@
 #Strategy Game
 
 #Global Variables and Arrays
-WELCOME = "==================================================================================="
+WELCOME = "===================================================================================\n"
 
 def getPlayerCommand():
     return input('Action: ')
@@ -12,6 +12,7 @@ def getPlayerCommand():
 
 def Game():
     inventory= []
+    print (WELCOME)
     isExit=False
     while not isExit:
         actionInput= getPlayerCommand()
