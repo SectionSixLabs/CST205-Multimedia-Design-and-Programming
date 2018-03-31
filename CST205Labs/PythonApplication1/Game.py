@@ -8,7 +8,8 @@ WELCOME = "=====================================================================
 def getPlayerCommand():
     return input('Action: ')
 
-
+def processAction(action):
+    
 
 def Game():
     inventory= []
