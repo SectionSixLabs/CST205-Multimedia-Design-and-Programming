@@ -1,14 +1,13 @@
-import items
+import gameItems
 import world
 
 
 class Player:
     def __init__(self):
-        self.inventory = []
+        self.inventory = [gameItems.Spear(),gameItems.HealingPowder() ]
         self.x = world.start_tile_location[0]
         self.y = world.start_tile_location[1]
         self.hp = 100
-        self.gold = 5
         self.victory = False
 
     def is_alive(self):
@@ -18,7 +17,6 @@ class Player:
         print("Inventory:")
         for item in self.inventory:
             print('* ' + str(item))
-        print("Gold: {}".format(self.gold))
 
     def heal(self):
         consumables = [item for item in self.inventory

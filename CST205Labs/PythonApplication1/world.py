@@ -1,6 +1,7 @@
 import enemies
 import npc
 import random
+import gameItems
 
 class MapTitle:
     """description of class"""
@@ -32,15 +33,23 @@ class VictoryTile(MapTile):
         Victory is yours!
         """
 
-class EnemyAnt(MapTile):
+class EnemyTile(MapTile):
     def __init__(self, x, y):
-        self.enemy = enemies.GiantAnt()
-        self.alive_text = "A giant ant toward you " \
-                          "its pincers snap at you!"
-        self.dead_text = "The corpse of a dead ant " \
-                         "rots on the ground. you sing"\
-                         "Dead Ant, Ded Ant, Tad-Da-Da-Da"
-
+        r = random.random()
+        if r < 0.50:
+            self.enemy = enemies.GiantAnt()
+            self.alive_text = "A giant ant toward you " \
+                             "its pincers snap at you!"
+            self.dead_text = "The corpse of a dead ant " \
+                             "disolves on the ground. you sing"\
+                             "Dead Ant, Ded Ant, Tad-Da-Da-Da"
+        else: 
+            self.enemy = enemies.RadScorpion()
+            self.alive_text = "A giant Scorpion crols toward you " \
+                             "its stinger lashes at you!"
+            self.dead_text = "The corpse of a dead scorpion " \
+                             "disolves on the ground. You Exclaim"\
+                             "Whisky Tango Foxtrot was that thing? "
 
         super().__init__(x, y)
     def intro_text(self):
@@ -58,8 +67,15 @@ class LootTile(MapTitle):
     def __init__(self, x, y):
         #Random Item Drop
         r = random.random()
-        self.item = ""
-        self.item_claimed = False
+        if r < 0.10:
+            self.item = gameItems.pistol223
+            self.item_claimed = False
+        elif r < 0.80:
+            self.item = gameItems.HealingPowder
+            self.item_claimed = False
+        else:
+            self.item = gameItems.Antidote
+            self.item_claimed = False
         super().__init__(x, y)
 
     def modifyPlayer(self, player):

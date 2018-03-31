@@ -19,7 +19,7 @@ import world
 
 
 def play():
-    print("Escape from Cave Terror!")
+    print("Escape from Temple of Terror!")
     world.parse_world_locations()
     player = Player()
     while player.is_alive() and not player.victory:
@@ -52,6 +52,8 @@ def get_available_actions(room, player):
     if isinstance(room, world.LootTile):
         action_adder(actions, 'l', player.loot, "Loot")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
+        action_adder(actions, 'a', player.attack, "Attack")
+    if isinstance(room, world.BossTile) and room.enemy.is_alive():
         action_adder(actions, 'a', player.attack, "Attack")
     else:
         if world.tile_at(room.x, room.y - 1):

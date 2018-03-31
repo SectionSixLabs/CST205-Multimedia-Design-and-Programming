@@ -15,9 +15,9 @@ class pistol223(Weapon):
     def __init__(self):
         self.name = ".223 pistol"
         self.description = "A .223 rifle modified and cut down to a pistol. This is a one-of-a-kind firearm, obviously made with love and skill." 
-        self.damage = 30
+        self.damage = 50
         self.rounds = 5
-
+       
 class Consumable:
     def __init__(self):
         raise NotImplementedError("No we cannot make it food")
