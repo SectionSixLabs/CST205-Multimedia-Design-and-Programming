@@ -83,6 +83,6 @@ class Player:
         else:
             print("{} HP is {}.".format(enemy.name, enemy.hp))
 
-    def trade(self):
+    def loot(self):
         room = world.tile_at(self.x, self.y)
-        room.check_if_trade(self)
+        room.check_if_loot(self)

@@ -20,13 +20,50 @@ class StartTile(MapTile):
         You find yourself in a cave with a flickering torch on the wall.
         You can make out four paths, each equally as dark and foreboding.
         """
+class VictoryTile(MapTile):
+    def modify_player(self, player):
+        player.victory = True
 
+    def intro_text(self):
+        return """
+        You see a bright light in the distance...
+        ... it grows as you get closer! It's sunlight!
+        Victory is yours!
+        """
+class LootTile(MapTitle): 
+    def __init__(self, x, y):
+        #Random Item Drop
+        r = random.random()
+        self.item = ""
+        self.item_claimed = False
+        super().__init__(x, y)
+
+    def modifyPlayer(self, player):
+        if not self.item_claimed:
+            self.item_claimed = True
+            inventory.append(self.item)
+            print("+{} added to your inventory.".format(self.item))
+
+#Game World Main functions
 worldLocations = """
-|EN|EN|VT|EN|EN|
-|EN|  |  |  |EN|
-|EN|FC|EN|  |TT|
-|TT|  |ST|FC|EN|
-|FC|  |EN|  |FC|
+|VT|  |  |  |  |  |  | 
+|FB|  |  |  |  |  |  | 
+|DT|PS|  |  |  |LT|  | 
+|  |PS|PS|EN|EN|LT|  | 
+|  |TR|  |  |  |  |  | 
+|  |DT|  |  |  |  |  | 
+|  |PS|PS|EN|LT|  |  | 
+|  |EN|  |  |  |  |  | 
+|  |PS|PS|EN|LT|  |  | 
+|  |  |PS|  |  |  |  | 
+|  |  |TR|  |  |  |  | 
+|  |  |DT|PS|  |  |  | 
+|  |  |  |PS|PS|EN|LT|
+|  |  |  |  |PS|  |EN|
+|  |  |  |EN|PS|  |  |
+|  |  |  |  |PS|EN|LT|
+|  |  |  |  |EN|  |  |
+|  |  |  |  |ST|  |  |
 """
 
 
@@ -45,10 +82,12 @@ def is_locations_valid(locations):
     return True
 
 tile_type_dict = {"VT": VictoryTile,
+                  "FB": BossTile,
                   "EN": EnemyTile,
+                  "PS": Passage,
                   "ST": StartTile,
-                  "FC": FindCupsTile,
-                  "TT": ToiletTile,
+                  "LT": LootTile,
+                  "TR": TrapTile,
                   "  ": None}
 
 
