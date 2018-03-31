@@ -1,4 +1,4 @@
-import items
+import gameItems
 
 
 class NonPlayableCharacter():

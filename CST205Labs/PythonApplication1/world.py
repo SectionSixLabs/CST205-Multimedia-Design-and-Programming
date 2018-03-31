@@ -3,7 +3,7 @@ import npc
 import random
 import gameItems
 
-class MapTitle:
+class MapTile:
     """description of class"""
     def __init__(self, x, y):
         self.x = x
@@ -62,8 +62,27 @@ class EnemyTile(MapTile):
             print("Enemy does {} damage. You have {} HP remaining.".
                   format(self.enemy.damage, player.hp))
 
+class BossTile(MapTile):
+    def __init__(self, x, y):
+       self.enemy = enemies.Cameron()
+       self.alive_text = "A man yels at you \"You Shell Not Pass\" " \
+                             "and he launges at you!"
+       self.dead_text = "The corpse of a dead man " \
+                             "disolves on the ground. you sing"\
+                             "Dead Ant, Ded Ant, Tad-Da-Da-Da"
 
-class LootTile(MapTitle): 
+       super().__init__(x, y)
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            player.hp = player.hp - self.enemy.damage
+            print("Enemy does {} damage. You have {} HP remaining.".
+                  format(self.enemy.damage, player.hp))
+
+class LootTile(MapTile): 
     def __init__(self, x, y):
         #Random Item Drop
         r = random.random()
@@ -124,7 +143,7 @@ def is_locations_valid(locations):
 
 tile_type_dict = {"VT": VictoryTile,
                   "FB": BossTile,
-                  "EA": EnemyAnt,
+                  "EA": EnemyTile,
                   "PS": Passage,
                   "ST": StartTile,
                   "LT": LootTile,
