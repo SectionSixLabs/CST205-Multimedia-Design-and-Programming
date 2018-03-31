@@ -20,19 +20,21 @@ class pistol223(Weapon):
        
 class Consumable:
     def __init__(self):
-        raise NotImplementedError("No we cannot make it food")
+        raise NotImplementedError("Do not create raw Consumable objects.")
 
     def __str__(self):
         return "{} (+{} HP)".format(self.name, self.healing_value)
 
-class HealingPowder(Consumable):
-    def __init__(self):
-         self.name = "Healing Powder"
-         self.description = "A very powerful healing magic- though it will bring the feeling of sleep to your head."
-         self.healing_value = 50
 
-class Antidote(Consumable):
+class CrustyBread(Consumable):
     def __init__(self):
-         self.name = "Antidote"
-         self.description = "A bottle containing a home-brewed antidote for poison. A milky solution with floating pieces of radscorpion flesh"
-         self.healing_value = 25
+        self.name = "Crusty Bread"
+        self.healing_value = 10
+        self.value = 12
+
+
+class HealingPotion(Consumable):
+    def __init__(self):
+        self.name = "Healing Potion"
+        self.healing_value = 50
+        self.value = 60

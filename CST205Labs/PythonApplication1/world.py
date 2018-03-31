@@ -36,7 +36,7 @@ class VictoryTile(MapTile):
 class EnemyTile(MapTile):
     def __init__(self, x, y):
         r = random.random()
-        if r < 0.50:
+        if r < 0.80:
             self.enemy = enemies.GiantAnt()
             self.alive_text = "A giant ant toward you " \
                              "its pincers snap at you!"
@@ -82,48 +82,86 @@ class BossTile(MapTile):
             print("Enemy does {} damage. You have {} HP remaining.".
                   format(self.enemy.damage, player.hp))
 
+class TrapTile(MapTile):
+    def __init__(self, x, y):
+       self.alive_text = "You notice some strange patterns on the floor, but you barge in anyway"
+       super().__init__(x, y)
+
+    
+    def intro_text(self):
+        text = self.alive_text
+        return text
+
+    def modify_player(self, player):
+       r = random.random()
+       if r <0.5:
+           self.modify_player(player)
+           damage = int(random.random()*10)
+           player.hp = player.hp - damage
+           print("Trap does {} damage. You have {} HP remaining.".format(damage, player.hp))
+       else: 
+           print ("You figure that there is a trap somwhere in the room but it seam you go lucky")
+
 class LootTile(MapTile): 
     def __init__(self, x, y):
         #Random Item Drop
         r = random.random()
         if r < 0.10:
-            self.item = gameItems.pistol223
-            self.item_claimed = False
-        elif r < 0.80:
-            self.item = gameItems.HealingPowder
+            self.item = gameItems.pistol223()
             self.item_claimed = False
         else:
-            self.item = gameItems.Antidote
+            self.item = gameItems.HealingPotion()
             self.item_claimed = False
         super().__init__(x, y)
+
+    def intro_text(self):
+        item = self.item
+        if self.item_claimed:
+            return """
+            Another unremarkable part of the tample. You must forge onwards.
+            """
+        else:
+            return """
+            Someone dropped some {}.""".format(item.name)
 
     def modifyPlayer(self, player):
         if not self.item_claimed:
             self.item_claimed = True
-            inventory.append(self.item)
-            print("{} added to your inventory.".format(self.item))
+            item = self.item
+            player.inventory.append(item)
+            print("{} added to your inventory.".format(item.name))
+
+class PassageTile(MapTile):
+    def intro_text(self):
+        return """
+        You are in a dark, musty temple. 
+        The shadows seem to play tricks with your eyes, 
+        and you can hear the faint sound of movement.
+        """
+
+
 
 
 #Game World Main functions
 worldLocations = """
-|VT|  |  |  |  |  |  | 
-|FB|  |  |  |  |  |  | 
-|DT|PS|  |  |  |LT|  | 
-|  |PS|PS|EN|EN|LT|  | 
-|  |TR|  |  |  |  |  | 
-|  |DT|  |  |  |  |  | 
-|  |PS|PS|EN|LT|  |  | 
-|  |EN|  |  |  |  |  | 
-|  |PS|PS|EN|LT|  |  | 
-|  |  |PS|  |  |  |  | 
-|  |  |TR|  |  |  |  | 
-|  |  |DT|PS|  |  |  | 
-|  |  |  |PS|PS|EA|LT|
-|  |  |  |  |PS|  |EA|
-|  |  |  |EA|PS|  |  |
-|  |  |  |  |PS|EA|LT|
-|  |  |  |  |EA|  |  |
-|  |  |  |  |ST|  |  |
+|VT|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|FB|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|PS|PS|**|**|**|LT|**|**|**|**|**|**|**|**|**|**|**|
+|**|PS|PS|EN|EN|LT|**|**|**|**|**|**|**|**|**|**|**|
+|**|TR|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|PS|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|PS|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|EN|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|PS|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|**|PS|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|**|TR|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|**|PS|PS|**|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|**|**|PS|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|
+|**|**|**|**|PS|**|EN|**|**|**|**|**|**|**|**|**|**|
+|**|**|**|EN|PS|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|**|**|**|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|
+|**|**|**|**|TR|**|**|**|**|**|**|**|**|**|**|**|**|
+|**|**|**|**|ST|**|**|**|**|**|**|**|**|**|**|**|**|
 """
 
 
@@ -143,12 +181,12 @@ def is_locations_valid(locations):
 
 tile_type_dict = {"VT": VictoryTile,
                   "FB": BossTile,
-                  "EA": EnemyTile,
-                  "PS": Passage,
+                  "EN": EnemyTile,
+                  "PS": PassageTile,
                   "ST": StartTile,
                   "LT": LootTile,
                   "TR": TrapTile,
-                  "  ": None}
+                  "**": None}
 
 
 world_map = []
@@ -161,13 +199,17 @@ def parse_world_locations():
         raise SyntaxError("Thi location is invalid!")
 
     locations_lines = worldLocations.splitlines()
+    #print (locations_lines)
     locations_lines = [x for x in locations_lines if x]
-
+    #print (len(locations_lines))
     for y, locations_row in enumerate(locations_lines):
         row = []
         locations_cells = locations_row.split("|")
+        #print (locations_cells)
         locations_cells = [c for c in locations_cells if c]
+        #print (len(locations_cells))
         for x, locations_cell in enumerate(locations_cells):
+            #print (str(x)+":Cell: |"+locations_cell+"|")
             tile_type = tile_type_dict[locations_cell]
             if tile_type == StartTile:
                 global start_tile_location

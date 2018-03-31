@@ -19,8 +19,8 @@ import world
 
 
 def play():
-    print("Escape from Temple of Terror!")
     world.parse_world_locations()
+    print("Escape from Temple of Terror!")
     player = Player()
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)

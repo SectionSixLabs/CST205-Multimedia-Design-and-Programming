@@ -4,7 +4,7 @@ import world
 
 class Player:
     def __init__(self):
-        self.inventory = [gameItems.Spear(),gameItems.HealingPowder() ]
+        self.inventory = [gameItems.Spear(),gameItems.HealingPotion() ]
         self.x = world.start_tile_location[0]
         self.y = world.start_tile_location[1]
         self.hp = 100
@@ -20,7 +20,7 @@ class Player:
 
     def heal(self):
         consumables = [item for item in self.inventory
-                       if isinstance(item, items.Consumable)]
+                       if isinstance(item, gameItems.Consumable)]
         if not consumables:
             print("You don't have any items to heal you!")
             return
@@ -83,4 +83,4 @@ class Player:
 
     def loot(self):
         room = world.tile_at(self.x, self.y)
-        room.check_if_loot(self)
+        room.modifyPlayer(self)
