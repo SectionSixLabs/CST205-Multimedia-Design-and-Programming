@@ -17,8 +17,9 @@ class MapTitle:
 class StartTile(MapTile):
     def intro_text(self):
         return """
-        You find yourself in a cave with a flickering torch on the wall.
-        You can make out four paths, each equally as dark and foreboding.
+        You find yourself at the entrance of a temple.
+        You look around and find that only path you have is to go inside,
+        as other paths are blocked by the palicade and sharpened stakes.   
         """
 class VictoryTile(MapTile):
     def modify_player(self, player):
@@ -30,6 +31,29 @@ class VictoryTile(MapTile):
         ... it grows as you get closer! It's sunlight!
         Victory is yours!
         """
+
+class EnemyAnt(MapTile):
+    def __init__(self, x, y):
+        self.enemy = enemies.GiantAnt()
+        self.alive_text = "A giant ant toward you " \
+                          "its pincers snap at you!"
+        self.dead_text = "The corpse of a dead ant " \
+                         "rots on the ground. you sing"\
+                         "Dead Ant, Ded Ant, Tad-Da-Da-Da"
+
+
+        super().__init__(x, y)
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            player.hp = player.hp - self.enemy.damage
+            print("Enemy does {} damage. You have {} HP remaining.".
+                  format(self.enemy.damage, player.hp))
+
+
 class LootTile(MapTitle): 
     def __init__(self, x, y):
         #Random Item Drop
@@ -42,7 +66,8 @@ class LootTile(MapTitle):
         if not self.item_claimed:
             self.item_claimed = True
             inventory.append(self.item)
-            print("+{} added to your inventory.".format(self.item))
+            print("{} added to your inventory.".format(self.item))
+
 
 #Game World Main functions
 worldLocations = """
@@ -58,11 +83,11 @@ worldLocations = """
 |  |  |PS|  |  |  |  | 
 |  |  |TR|  |  |  |  | 
 |  |  |DT|PS|  |  |  | 
-|  |  |  |PS|PS|EN|LT|
-|  |  |  |  |PS|  |EN|
-|  |  |  |EN|PS|  |  |
-|  |  |  |  |PS|EN|LT|
-|  |  |  |  |EN|  |  |
+|  |  |  |PS|PS|EA|LT|
+|  |  |  |  |PS|  |EA|
+|  |  |  |EA|PS|  |  |
+|  |  |  |  |PS|EA|LT|
+|  |  |  |  |EA|  |  |
 |  |  |  |  |ST|  |  |
 """
 
@@ -83,7 +108,7 @@ def is_locations_valid(locations):
 
 tile_type_dict = {"VT": VictoryTile,
                   "FB": BossTile,
-                  "EN": EnemyTile,
+                  "EA": EnemyAnt,
                   "PS": Passage,
                   "ST": StartTile,
                   "LT": LootTile,
