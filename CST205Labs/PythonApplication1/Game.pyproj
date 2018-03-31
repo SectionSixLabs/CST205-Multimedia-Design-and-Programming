@@ -22,6 +22,21 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="enemies.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="items.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="npc.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="player.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="world.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Game.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
