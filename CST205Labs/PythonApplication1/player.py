@@ -4,7 +4,7 @@ import world
 
 class Player:
     def __init__(self):
-        self.inventory = [gameItems.Spear(),gameItems.HealingPotion() ]
+        self.inventory = [gameItems.Spear() ]
         self.x = world.start_tile_location[0]
         self.y = world.start_tile_location[1]
         self.hp = 100
