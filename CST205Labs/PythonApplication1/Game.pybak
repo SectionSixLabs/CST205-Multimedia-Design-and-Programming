@@ -7,13 +7,13 @@ WELCOME = """
 ===================================================================================
 |                              Sectioin Six Labs                                  |
 |                                 Presents                                        |
-|                          "Escape from Temple of Terror!"                        |
+|                           Escape from Temple of Terror!                         |
 |             In each room you will be told which directions you can go           |
 |     You'll be able to go north, south, east or west by typing that direction    |
 |                                                                                 |
 ===================================================================================
 """
-from collections import OrderedDict
+#from collections import OrderedDict
 from player import Player
 import world
 
@@ -45,7 +45,7 @@ def choose_action(room, player):
 
 
 def get_available_actions(room, player):
-    actions = OrderedDict()
+    actions = []
     print("Choose an action: ")
     if player.inventory:
         action_adder(actions, 'i', player.print_inventory, "Inventory")

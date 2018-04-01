@@ -42,18 +42,22 @@ class EnemyTile(MapTile):
         r = random.random()
         if r < 0.80:
             self.enemy = enemies.GiantAnt()
-            self.alive_text = "A giant ant toward you " \
-                             "its pincers snap at you! "
-            self.dead_text = "The corpse of a dead ant " \
-                             "disolves on the ground. you sing "\
-                             "Dead Ant, Ded Ant, Tad-Da-Da-Da"
+            self.alive_text ="""
+                             A giant ant toward you 
+                             its pincers snap at you! """
+            self.dead_text = """
+                             The corpse of a dead ant 
+                             disolves on the ground. you sing
+                             Dead Ant, Ded Ant, Tad-Da-Da-Da"""
         else: 
             self.enemy = enemies.RadScorpion()
-            self.alive_text = "A giant Scorpion crols toward you " \
-                             "its stinger lashes at you!"
-            self.dead_text = "The corpse of a dead scorpion " \
-                             "disolves on the ground. You Exclaim "\
-                             "Whisky Tango Foxtrot was that thing? "
+            self.alive_text = """
+                             A giant Scorpion crols toward you 
+                             its stinger lashes at you!"""
+            self.dead_text = """
+                             The corpse of a dead scorpion 
+                             disolves on the ground. You Exclaim 
+                             Whisky Tango Foxtrot was that thing?"""
 
         super().__init__(x, y)
     def intro_text(self):
@@ -63,17 +67,21 @@ class EnemyTile(MapTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             player.hp = player.hp - self.enemy.damage
-            print("Enemy does {} damage. You have {} HP remaining.".
-                  format(self.enemy.damage, player.hp))
+            print("""
+                  Enemy does {} damage. You have {} HP remaining.
+                  """.format(self.enemy.damage, player.hp))
 
 class BossTile(MapTile):
     def __init__(self, x, y):
        self.enemy = enemies.Cameron()
-       self.alive_text = "A man yels at you \"You Shell Not Pass\" " \
-                             " and he launges at you!"
-       self.dead_text = "The corpse of a dead man " \
-                             "disolves on the ground. you sing "\
-                             " Dead Ant, Ded Ant, Tad-Da-Da-Da"
+       self.alive_text = """
+                  A man yels at you:            
+                  My Name is {}!!!
+                  "You Shell Not Pass" and launges at you!
+                  """.format(self.enemy.name)
+       self.dead_text = """
+                  The corpse of a dead man disolves on the ground. you sing
+                      Dead Ant, Ded Ant, Tad-Da-Da-Da"""
 
        super().__init__(x, y)
     def intro_text(self):
@@ -83,12 +91,16 @@ class BossTile(MapTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             player.hp = player.hp - self.enemy.damage
-            print("Enemy does {} damage. You have {} HP remaining.".
+            print("""
+                  Enemy does {} damage. You have {} HP remaining.
+                  """.
                   format(self.enemy.damage, player.hp))
 
 class TrapTile(MapTile):
     def __init__(self, x, y):
-       self.alive_text = "You notice some strange patterns on the floor, but you barge in anyway"
+       self.alive_text = """
+                         You notice some strange patterns on the floor, but you barge in anyway
+                         """
        super().__init__(x, y)
 
     
@@ -102,9 +114,13 @@ class TrapTile(MapTile):
            self.modify_player(player)
            damage = int(random.random()*10)
            player.hp = player.hp - damage
-           print("Trap does {} damage. You have {} HP remaining.".format(damage, player.hp))
+           print("""
+                 Trap does {} damage. You have {} HP remaining.
+                 """.format(damage, player.hp))
        else: 
-           print ("You figure that there is a trap somwhere in the room but it seam you go lucky or...")
+           print ("""
+                 You figure that there is a trap somwhere in the room but it seam you go lucky or...
+                 """)
 
 class LootTile(MapTile): 
     def __init__(self, x, y):
@@ -202,9 +218,24 @@ class PassageTile(MapTile):
         Two skeletons, pierced by dozens of tiny stone spikes, lie in the pit. 
         The chamber beyond boasts a stone plinth and altar set in a semi-circular niche. 
         The chamber’s other doorway—twice the width of the trapped one—appears unprotected.
-        """
-       ]
-        return random.choice(roomDesc)
+        """]
+        
+        print (self.x, self.y)
+        roomDesc= random.choice(roomDesc)
+        print (roomDesc)
+        if tile_at(self.x, self.y - 1):
+            print("""You can see passage to the north
+            """)
+        if tile_at(self.x, self.y + 1):
+            print("""You can see passage to the south
+            """)
+        if tile_at(self.x + 1, self.y):
+            print("""You can see passage to the east
+            """)
+        if tile_at(self.x - 1, self.y):
+            print("""You can see passage to the west
+            """)
+        return ""
 
 
 
@@ -228,7 +259,7 @@ worldLocations = """
 |__|__|__|__|TR|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|__|LT|EN|PS|__|EN|LT|__|__|__|__|__|__|__|__|__|
 |__|__|__|__|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|
-|__|__|__|__|EN|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|PS|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|__|__|__|ST|__|__|__|__|__|__|__|__|__|__|__|__|
 """
 
