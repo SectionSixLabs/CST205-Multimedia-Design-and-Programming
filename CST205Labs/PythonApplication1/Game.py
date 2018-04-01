@@ -50,7 +50,8 @@ def get_available_actions(room, player):
     if player.inventory:
         action_adder(actions, 'i', player.print_inventory, "Print inventory")
     if isinstance(room, world.LootTile):
-        action_adder(actions, 'l', player.loot, "Loot")
+        if room.item_claimed == False: 
+            action_adder(actions, 'l', player.loot, "Loot")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, 'a', player.attack, "Attack")
     if isinstance(room, world.BossTile) and room.enemy.is_alive():

@@ -30,7 +30,11 @@ class VictoryTile(MapTile):
         return """
         You see a bright light in the distance...
         ... it grows as you get closer! It's sunlight!
-        Victory is yours!
+        It is puring down on the blue and yellow jumpsuit!
+        You take it and turn it over, it reads:
+        VAULT 101
+        You realise that you are in Fallout 2 Universe. 
+        Congradulations - now go and buy the game if you want to continue
         """
 
 class EnemyTile(MapTile):
@@ -39,16 +43,16 @@ class EnemyTile(MapTile):
         if r < 0.80:
             self.enemy = enemies.GiantAnt()
             self.alive_text = "A giant ant toward you " \
-                             "its pincers snap at you!"
+                             "its pincers snap at you! "
             self.dead_text = "The corpse of a dead ant " \
-                             "disolves on the ground. you sing"\
+                             "disolves on the ground. you sing "\
                              "Dead Ant, Ded Ant, Tad-Da-Da-Da"
         else: 
             self.enemy = enemies.RadScorpion()
             self.alive_text = "A giant Scorpion crols toward you " \
                              "its stinger lashes at you!"
             self.dead_text = "The corpse of a dead scorpion " \
-                             "disolves on the ground. You Exclaim"\
+                             "disolves on the ground. You Exclaim "\
                              "Whisky Tango Foxtrot was that thing? "
 
         super().__init__(x, y)
@@ -66,10 +70,10 @@ class BossTile(MapTile):
     def __init__(self, x, y):
        self.enemy = enemies.Cameron()
        self.alive_text = "A man yels at you \"You Shell Not Pass\" " \
-                             "and he launges at you!"
+                             " and he launges at you!"
        self.dead_text = "The corpse of a dead man " \
-                             "disolves on the ground. you sing"\
-                             "Dead Ant, Ded Ant, Tad-Da-Da-Da"
+                             "disolves on the ground. you sing "\
+                             " Dead Ant, Ded Ant, Tad-Da-Da-Da"
 
        super().__init__(x, y)
     def intro_text(self):
@@ -100,7 +104,7 @@ class TrapTile(MapTile):
            player.hp = player.hp - damage
            print("Trap does {} damage. You have {} HP remaining.".format(damage, player.hp))
        else: 
-           print ("You figure that there is a trap somwhere in the room but it seam you go lucky")
+           print ("You figure that there is a trap somwhere in the room but it seam you go lucky or...")
 
 class LootTile(MapTile): 
     def __init__(self, x, y):
@@ -144,24 +148,24 @@ class PassageTile(MapTile):
 
 #Game World Main functions
 worldLocations = """
-|VT|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|FB|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|PS|PS|**|**|**|LT|**|**|**|**|**|**|**|**|**|**|**|
-|**|PS|PS|EN|EN|LT|**|**|**|**|**|**|**|**|**|**|**|
-|**|TR|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|PS|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|PS|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|EN|**|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|PS|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|**|PS|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|**|TR|**|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|**|PS|PS|**|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|**|**|PS|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|
-|**|**|**|**|PS|**|EN|**|**|**|**|**|**|**|**|**|**|
-|**|**|**|EN|PS|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|**|**|**|PS|EN|LT|**|**|**|**|**|**|**|**|**|**|
-|**|**|**|**|TR|**|**|**|**|**|**|**|**|**|**|**|**|
-|**|**|**|**|ST|**|**|**|**|**|**|**|**|**|**|**|**|
+|VT|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|FB|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|PS|PS|__|__|__|LT|__|__|__|__|__|__|__|__|__|__|__|
+|__|PS|PS|EN|EN|LT|__|__|__|__|__|__|__|__|__|__|__|
+|__|TR|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|PS|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|PS|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|EN|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|PS|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|PS|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|TR|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|PS|PS|__|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|PS|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|PS|__|EN|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|EN|PS|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|TR|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|ST|__|__|__|__|__|__|__|__|__|__|__|__|
 """
 
 
@@ -186,7 +190,7 @@ tile_type_dict = {"VT": VictoryTile,
                   "ST": StartTile,
                   "LT": LootTile,
                   "TR": TrapTile,
-                  "**": None}
+                  "__": None}
 
 
 world_map = []
