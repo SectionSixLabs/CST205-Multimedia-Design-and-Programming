@@ -162,6 +162,46 @@ class PassageTile(MapTile):
         ""","""
         On the walls you can read the big sign: 
         "Save Chear Leader - Save the World"
+        ""","""
+        A crack in the ceiling above the middle of the north wall 
+        allows a trickle of water to flow down to the floor. 
+        The water pools near the base of the wall, 
+        and a rivulet runs along the wall an out into the hall. 
+        The water smells fresh
+        ""","""
+        A large arched niche pierces one wall of this chamber. 
+        Filled with rotting wood and rubble the niche appears 
+        to be a dumping ground of sorts. Elsewhere in the room, 
+        several sections of floor are cracked and pitted.
+        """, """
+        This irregularly-shaped room has an uneven floor. 
+        Several small puddles have gathered in the deeper depressions. 
+        Elsewhere, small pieces of rubble litter the floor.
+        ""","""
+        The arched ceiling of this chamber rises to a height of 20 ft. 
+        In the centre of the room, but is barely man-high where it meets the walls.
+        The arches holding the ceiling aloft are carved to represent writhing tentacles;
+        a few have been defaced but the upper portions of all remain untouched.
+        ""","""
+        A pile of rotting wood, rubbish and other detritus partially obscures one wall of this chamber.
+        Clearly used as a rubbish dump, the stench of decay and rot hangs heavily in the air
+        ""","""
+        This large chamber was the scene of an ancient battle. 
+        Skeletal remains of at least a dozen humanoids lie scattered about the room where they fell. 
+        Several rusting broken spears and shattered, rotting shields lie among the fallen.
+        ""","""
+        Part of one wall of this room has collapsed, revealing the natural rock behind the dressed stone wall. 
+        The rubble has been moved to create a breastwork across one of the room’s exits. 
+        Splatters of old, dried blood decorate the top of the breastwork.
+        ""","""
+        The remains of a cold camp are evident here. 
+        A tattered cloak—sized for a gnome or halfling—along with two empty wineskins and the stripped bones
+        of a chicken and crusts of mouldy bread bear testimony to an explorer’s rest.
+        ""","""
+        A gaping open pit in one of this chamber’s doorways blocks access to the area beyond. 
+        Two skeletons, pierced by dozens of tiny stone spikes, lie in the pit. 
+        The chamber beyond boasts a stone plinth and altar set in a semi-circular niche. 
+        The chamber’s other doorway—twice the width of the trapped one—appears unprotected.
         """
        ]
         return random.choice(roomDesc)
