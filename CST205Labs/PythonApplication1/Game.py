@@ -5,11 +5,11 @@
 #Global Variables and Arrays
 WELCOME = """
 ===================================================================================
-|                                                                                 |
-|                                                                                 |
-|                                                                                 |
-|                                                                                 |
-|                                                                                 |
+|                              Sectioin Six Labs                                  |
+|                                 Presents                                        |
+|                           Escape from Temple of Terror!                         |
+|             In each room you will be told which directions you can go           |
+|     You'll be able to go north, south, east or west by typing that direction    |
 |                                                                                 |
 ===================================================================================
 """
@@ -20,7 +20,7 @@ import world
 
 def play():
     world.parse_world_locations()
-    print("Escape from Temple of Terror!")
+    print(WELCOME)
     player = Player()
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)
@@ -48,7 +48,7 @@ def get_available_actions(room, player):
     actions = OrderedDict()
     print("Choose an action: ")
     if player.inventory:
-        action_adder(actions, 'i', player.print_inventory, "Print inventory")
+        action_adder(actions, 'i', player.print_inventory, "Inventory")
     if isinstance(room, world.LootTile):
         if room.item_claimed == False: 
             action_adder(actions, 'l', player.loot, "Loot")

@@ -113,20 +113,22 @@ class LootTile(MapTile):
         if r < 0.10:
             self.item = gameItems.pistol223()
             self.item_claimed = False
-        else:
-            self.item = gameItems.HealingPotion()
+        elif r < 0.80:
+            self.item = gameItems.HealingPouder()
             self.item_claimed = False
+        else: 
+            self.item = gameItems.pistol223()
+            self.item_claimed = True
         super().__init__(x, y)
 
     def intro_text(self):
-        item = self.item
         if self.item_claimed:
             return """
             Another unremarkable part of the tample. You must forge onwards.
             """
         else:
             return """
-            Someone dropped some {}.""".format(item.name)
+            Someone dropped some {}.""".format(self.item.name)
 
     def modifyPlayer(self, player):
         if not self.item_claimed:
@@ -137,11 +139,32 @@ class LootTile(MapTile):
 
 class PassageTile(MapTile):
     def intro_text(self):
-        return """
+        roomDesc = ["""
         You are in a dark, musty temple. 
         The shadows seem to play tricks with your eyes, 
         and you can hear the faint sound of movement.
+        ""","""
+        You see a coridor draped in darkness in front of you
+        What does this darknes holds for you? 
+        ""","""
+        You see skatered pieces of cealing on the flor. 
+        Watch your steps.
+        ""","""
+        You can see body lying on the floor, you get closer. 
+        Name tag reads "Parzeval" 
+        You find the bloody message close to the corps. 
+        BeWare they are working for IOI,  they are sixers!
+        Don't trust them!
+        ""","""
+        You start seeing strang glowing symbols in the dark. 
+        Sudenly you relise what they are saying: 
+        Peace of Eden belongs to us!
+        ""","""
+        On the walls you can read the big sign: 
+        "Save Chear Leader - Save the World"
         """
+       ]
+        return random.choice(roomDesc)
 
 
 
@@ -150,21 +173,22 @@ class PassageTile(MapTile):
 worldLocations = """
 |VT|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
 |FB|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
-|PS|PS|__|__|__|LT|__|__|__|__|__|__|__|__|__|__|__|
-|__|PS|PS|EN|EN|LT|__|__|__|__|__|__|__|__|__|__|__|
+|PS|LT|__|__|__|LT|__|__|__|__|__|__|__|__|__|__|__|
+|__|PS|EN|LT|EN|LT|__|__|__|__|__|__|__|__|__|__|__|
 |__|TR|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|PS|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
-|__|PS|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|LT|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|EN|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|PS|TR|EN|LT|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|__|PS|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|__|TR|__|__|__|__|__|__|__|__|__|__|__|__|__|__|
-|__|__|PS|PS|__|__|__|__|__|__|__|__|__|__|__|__|__|
-|__|__|__|TR|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|
-|__|__|__|__|TR|__|EN|__|__|__|__|__|__|__|__|__|__|
-|__|__|__|EN|PS|__|__|__|__|__|__|__|__|__|__|__|__|
-|__|__|__|__|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|
+|__|__|EN|PS|__|__|LT|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|TR|EN|EN|LT|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|PS|__|EN|LT|__|__|__|__|__|__|__|__|__|
 |__|__|__|__|TR|__|__|__|__|__|__|__|__|__|__|__|__|
+|__|__|LT|EN|PS|__|EN|LT|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|PS|EN|LT|__|__|__|__|__|__|__|__|__|__|
+|__|__|__|__|EN|__|__|__|__|__|__|__|__|__|__|__|__|
 |__|__|__|__|ST|__|__|__|__|__|__|__|__|__|__|__|__|
 """
 
