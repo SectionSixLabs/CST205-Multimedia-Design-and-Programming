@@ -13,7 +13,7 @@ WELCOME = """
 |                                                                                 |
 ===================================================================================
 """
-from collections import OrderedDict
+#from collections import OrderedDict
 from player import Player
 import world
 
@@ -47,6 +47,7 @@ def choose_action(room, player):
 def get_available_actions(room, player):
     actions = OrderedDict()
     print("Choose an action: ")
+    action_adder(actions, 'q', player.quit, "Quit")
     if player.inventory:
         action_adder(actions, 'i', player.print_inventory, "Inventory")
     if isinstance(room, world.LootTile):

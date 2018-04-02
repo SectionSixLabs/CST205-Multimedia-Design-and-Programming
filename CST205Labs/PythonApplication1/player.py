@@ -90,3 +90,5 @@ class Player:
     def loot(self):
         room = world.tile_at(self.x, self.y)
         room.modifyPlayer(self)
+    def quit(self):
+        self.hp=-1

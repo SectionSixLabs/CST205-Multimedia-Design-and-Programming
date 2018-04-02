@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Game", "PythonApplication1\Game.pyproj", "{4A136978-5B1E-4890-AFC7-7B47C2B9E107}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "AdvantureGame", "..\..\..\..\..\..\JSE\AdvantureGame\AdvantureGame\AdvantureGame.pyproj", "{20214B54-90B3-4C0D-874E-0F5CE4DB2818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4A136978-5B1E-4890-AFC7-7B47C2B9E107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A136978-5B1E-4890-AFC7-7B47C2B9E107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20214B54-90B3-4C0D-874E-0F5CE4DB2818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20214B54-90B3-4C0D-874E-0F5CE4DB2818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
